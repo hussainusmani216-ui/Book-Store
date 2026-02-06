@@ -1,100 +1,120 @@
-
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>Sketchify - Explore & Buy</title>
     <link rel="stylesheet" href="style.css">
+     <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database-compat.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-   
+
 </head>
+
 <body>
 
-<div id="customerView">
-    <div class="header"><h1>🎨 SKETCHIFY ($)</h1><p>Click any book to explore all pages! ➜</p></div>
-    <div class="grid" id="mainGrid">Loading ...</div>
-    
-    <footer style="margin-top: 100px; padding: 20px; text-align: right;">
-        <div id="secretAdmin" onclick="handleTripleClick()" style="display:inline-block; width:60px; height:60px; opacity:0; cursor:default;">Admin</div>
-    </footer>
-</div>
-
-<div id="previewModal">
-    <button onclick="closePreview()" style="position:absolute; top:20px; right:20px; background:white; border:none; padding:15px; border-radius:50%; cursor:pointer; font-size: 20px;">✕</button>
-    <img id="previewImg" src="">
-    <div style="margin-top:20px; display: flex; gap: 20px; align-items: center;">
-        <button onclick="changePage(-1)" style="padding:15px 25px; border-radius: 10px; cursor:pointer; font-size: 18px;">⬅️ Back</button>
-        <span id="pageNumDisplay" style="color:white; font-size: 20px; font-weight: bold;">Page 1 / 10</span>
-        <button onclick="changePage(1)" style="padding:15px 25px; border-radius: 10px; cursor:pointer; font-size: 18px;">Next ➡️</button>
+    <div id="customerView">
+         <div class="nav">
+        <div class="logo">
+            <p class="animate__animated animate__flip">
+            <img src="C:\Users\hp\Downloads\Colorful Sketchify logo design.png" alt="" class="img"> </p></div>
+            
+ <h1 class="header">Sketchify </h1>
     </div>
-    <p style="color:#ffcc00; margin-top:15px; font-size: 14px;">Purchase to download high-quality PDF</p>
-</div>
+            
+        <div class="grid" id="mainGrid">Loading ...</div>
 
-<div id="payModal">
-    <div style="background:white; padding:40px; border-radius:20px; text-align:center; max-width:400px; border: 5px solid #ffcc00;">
-        <h2 style="margin-top:0;">Secure Checkout</h2>
-        <p style="font-size: 18px;">Pay <b>$<span id="pPrice"></span></b> to PayPal/Acc: 123456..</p>
-        <button class="buy-btn" onclick="confirmPay()">✅ I Have Paid (Download PDF)</button>
-        <button onclick="document.getElementById('payModal').style.display='none'" style="background:none; border:none; color:red; cursor:pointer; margin-top:15px; font-weight: bold;">CANCEL</button>
+        <footer style="margin-top: 100px; padding: 20px; text-align: right;">
+            <div id="secretAdmin" onclick="handleTripleClick()"
+                style="display:inline-block; width:60px; height:60px; opacity:0; cursor:default;">Admin</div>
+        </footer>
     </div>
-</div>
 
-<div id="adminSection">
-    <h2>🛠 Admin Dashboard</h2>
-    <div style="background:#e8f5e9; padding:20px; border-radius:10px; font-size:24px; margin-bottom:20px;">
-        Total Earnings: <b style="color:#2e7d32;">$<span id="walVal">0</span></b>
-        <button onclick="db.ref('wallet').set(0); alert('Withdrawal Initiated!')" style="background:orange; border:none; padding:10px 15px; border-radius:5px; cursor:pointer; float:right;">Withdraw to PayPal</button>
+    <div id="previewModal">
+        <button onclick="closePreview()"
+            style="position:absolute; top:20px; right:20px; background:white; border:none; padding:15px; border-radius:50%; cursor:pointer; font-size: 20px;">✕</button>
+        <img id="previewImg" src="">
+        <div style="margin-top:20px; display: flex; gap: 20px; align-items: center;">
+            <button onclick="changePage(-1)"
+                style="padding:15px 25px; border-radius: 10px; cursor:pointer; font-size: 18px;">⬅️ Back</button>
+            <span id="pageNumDisplay" style="color:white; font-size: 20px; font-weight: bold;">Page 1 / 10</span>
+            <button onclick="changePage(1)"
+                style="padding:15px 25px; border-radius: 10px; cursor:pointer; font-size: 18px;">Next ➡️</button>
+        </div>
+        <p style="color:#ffcc00; margin-top:15px; font-size: 14px;">Purchase to download high-quality PDF</p>
     </div>
-    <div style="border:2px dashed #333; padding:20px; border-radius:10px; background:#fff;">
-        <h3>Add New Story Book ($)</h3>
-        <input type="text" id="bName" placeholder="Book Title (e.g. Happy Lion)" style="width:100%;">
-        <input type="number" id="bPrice" placeholder="Price in Dollars ($)" style="width:100%;">
-        <p><b>1. Front Cover:</b> <input type="file" id="covIn" accept="image/*"></p>
-        <p><b>2. All Pages (8-10):</b> <input type="file" id="pagIn" accept="image/*" multiple></p>
-        <button class="buy-btn" style="background:green" onclick="uploadBook()">PUBLISH BOOK</button>
+
+    <div id="payModal">
+        <div
+            style="background:white; padding:40px; border-radius:20px; text-align:center; max-width:400px; border: 5px solid #ffcc00;">
+            <h2 style="margin-top:0;">Secure Checkout</h2>
+            <p style="font-size: 18px;">Pay <b>$<span id="pPrice"></span></b> to PayPal/Acc: 123456..</p>
+            <button class="buy-btn" onclick="confirmPay()">✅ I Have Paid (Download PDF)</button>
+            <button onclick="document.getElementById('payModal').style.display='none'"
+                style="background:none; border:none; color:red; cursor:pointer; margin-top:15px; font-weight: bold;">CANCEL</button>
+        </div>
     </div>
-    <h3>Active Inventory</h3>
-    <div id="adminList"></div>
-    <button class="buy-btn" style="background:#333; margin-top:20px;" onclick="location.reload()">Exit Admin View</button>
-</div>
 
-<script>
-    const firebaseConfig = {
-        apiKey: "AIzaSyDPMCvXOPghyLoLnCaTdeBoOc1O5JtAdcM",
-        authDomain: "flutter-ai-playground-77c9d.firebaseapp.com",
-        projectId: "flutter-ai-playground-77c9d",
-        storageBucket: "flutter-ai-playground-77c9d.firebasestorage.app",
-        messagingSenderId: "523687253654",
-        appId: "1:523687253654:web:9aeba5a69e8c4b823b54b7",
-        databaseURL: "https://flutter-ai-playground-77c9d-default-rtdb.firebaseio.com/" 
-    };
-    firebase.initializeApp(firebaseConfig);
-    const db = firebase.database();
+    <div id="adminSection">
+        <h2>🛠 Admin Dashboard</h2>
+        <div style="background:#e8f5e9; padding:20px; border-radius:10px; font-size:24px; margin-bottom:20px;">
+            Total Earnings: <b style="color:#2e7d32;">$<span id="walVal">0</span></b>
+            <button onclick="db.ref('wallet').set(0); alert('Withdrawal Initiated!')"
+                style="background:orange; border:none; padding:10px 15px; border-radius:5px; cursor:pointer; float:right;">Withdraw
+                to PayPal</button>
+        </div>
+        <div style="border:2px dashed #333; padding:20px; border-radius:10px; background:#fff;">
+            <h3>Add New Story Book ($)</h3>
+            <input type="text" id="bName" placeholder="Book Title (e.g. Happy Lion)" style="width:100%;">
+            <input type="number" id="bPrice" placeholder="Price in Dollars ($)" style="width:100%;">
+            <p><b>1. Front Cover:</b> <input type="file" id="covIn" accept="image/*"></p>
+            <p><b>2. All Pages (8-10):</b> <input type="file" id="pagIn" accept="image/*" multiple></p>
+            <button class="buy-btn" style="background:green" onclick="uploadBook()">PUBLISH BOOK</button>
+        </div>
+        <h3>Active Inventory</h3>
+        <div id="adminList"></div>
+        <button class="buy-btn" style="background:#333; margin-top:20px;" onclick="location.reload()">Exit Admin
+            View</button>
+    </div>
 
-    let clickCount = 0, clickTimer = null;
-    function handleTripleClick() {
-        clickCount++;
-        if(clickTimer) clearTimeout(clickTimer);
-        clickTimer = setTimeout(() => { clickCount = 0; }, 1000);
-        if(clickCount === 3) {
-            if(prompt("Password:") === "muzhuswebs") {
-                document.getElementById('customerView').style.display = 'none';
-                document.getElementById('adminSection').style.display = 'block';
-                loadAdmin();
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyDPMCvXOPghyLoLnCaTdeBoOc1O5JtAdcM",
+            authDomain: "flutter-ai-playground-77c9d.firebaseapp.com",
+            projectId: "flutter-ai-playground-77c9d",
+            storageBucket: "flutter-ai-playground-77c9d.firebasestorage.app",
+            messagingSenderId: "523687253654",
+            appId: "1:523687253654:web:9aeba5a69e8c4b823b54b7",
+            databaseURL: "https://flutter-ai-playground-77c9d-default-rtdb.firebaseio.com/"
+        };
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.database();
+
+        let clickCount = 0, clickTimer = null;
+        function handleTripleClick() {
+            clickCount++;
+            if (clickTimer) clearTimeout(clickTimer);
+            clickTimer = setTimeout(() => { clickCount = 0; }, 1000);
+            if (clickCount === 3) {
+                if (prompt("Password:") === "muzhuswebs") {
+                    document.getElementById('customerView').style.display = 'none';
+                    document.getElementById('adminSection').style.display = 'block';
+                    loadAdmin();
+                }
             }
         }
-    }
 
-    db.ref('books').on('value', s => {
-        const grid = document.getElementById('mainGrid');
-        grid.innerHTML = "";
-        const data = s.val();
-        for(let id in data) {
-            const b = data[id];
-            const pageCount = b.content ? b.content.length : 0;
-            grid.innerHTML += `
+        db.ref('books').on('value', s => {
+            const grid = document.getElementById('mainGrid');
+            grid.innerHTML = "";
+            const data = s.val();
+            for (let id in data) {
+                const b = data[id];
+                const pageCount = b.content ? b.content.length : 0;
+                grid.innerHTML += `
                 <div class="card" onclick="openPreview('${id}')">
                     <div class="page-badge">${pageCount} Pages</div>
                     <img src="${b.cover}">
@@ -103,90 +123,91 @@
                     <div class="explore-hint">Explore Pages ➜</div>
                     <button class="buy-btn" onclick="event.stopPropagation(); openPay('${id}', ${b.price})">Buy & Download</button>
                 </div>`;
-        }
-    });
-
-    let currentPages = [], pageIdx = 0;
-    async function openPreview(id) {
-        const s = await db.ref('books/'+id).once('value');
-        currentPages = s.val().content;
-        pageIdx = 0;
-        updatePreview();
-        document.getElementById('previewModal').style.display = 'flex';
-    }
-
-    function updatePreview() {
-        document.getElementById('previewImg').src = currentPages[pageIdx];
-        document.getElementById('pageNumDisplay').innerText = `Page ${pageIdx + 1} / ${currentPages.length}`;
-    }
-
-    function changePage(dir) {
-        pageIdx = (pageIdx + dir + currentPages.length) % currentPages.length;
-        updatePreview();
-    }
-
-    function closePreview() { document.getElementById('previewModal').style.display = 'none'; }
-
-    let c64 = "", p64 = [];
-    document.getElementById('covIn').onchange = e => { 
-        let r = new FileReader(); r.onload = () => c64 = r.result; r.readAsDataURL(e.target.files[0]); 
-    };
-    document.getElementById('pagIn').onchange = e => {
-        p64 = [];
-        Array.from(e.target.files).forEach(f => {
-            let r = new FileReader(); r.onload = () => p64.push(r.result); r.readAsDataURL(f);
+            }
         });
-    };
 
-    function uploadBook() {
-        const n = document.getElementById('bName').value, p = document.getElementById('bPrice').value;
-        if(!n || !p || !c64 || p64.length < 1) return alert("Fill all details!");
-        db.ref('books').push({ name:n, price:p, cover:c64, content:p64 }).then(()=>location.reload());
-    }
+        let currentPages = [], pageIdx = 0;
+        async function openPreview(id) {
+            const s = await db.ref('books/' + id).once('value');
+            currentPages = s.val().content;
+            pageIdx = 0;
+            updatePreview();
+            document.getElementById('previewModal').style.display = 'flex';
+        }
 
-    function loadAdmin() {
-        db.ref('books').on('value', s => {
-            const list = document.getElementById('adminList'); list.innerHTML = "";
-            for(let id in s.val()) {
-                list.innerHTML += `<div style="padding:15px; border-bottom:1px solid #ddd; background:#f9f9f9; margin-top:5px; border-radius:8px;">
+        function updatePreview() {
+            document.getElementById('previewImg').src = currentPages[pageIdx];
+            document.getElementById('pageNumDisplay').innerText = `Page ${pageIdx + 1} / ${currentPages.length}`;
+        }
+
+        function changePage(dir) {
+            pageIdx = (pageIdx + dir + currentPages.length) % currentPages.length;
+            updatePreview();
+        }
+
+        function closePreview() { document.getElementById('previewModal').style.display = 'none'; }
+
+        let c64 = "", p64 = [];
+        document.getElementById('covIn').onchange = e => {
+            let r = new FileReader(); r.onload = () => c64 = r.result; r.readAsDataURL(e.target.files[0]);
+        };
+        document.getElementById('pagIn').onchange = e => {
+            p64 = [];
+            Array.from(e.target.files).forEach(f => {
+                let r = new FileReader(); r.onload = () => p64.push(r.result); r.readAsDataURL(f);
+            });
+        };
+
+        function uploadBook() {
+            const n = document.getElementById('bName').value, p = document.getElementById('bPrice').value;
+            if (!n || !p || !c64 || p64.length < 1) return alert("Fill all details!");
+            db.ref('books').push({ name: n, price: p, cover: c64, content: p64 }).then(() => location.reload());
+        }
+
+        function loadAdmin() {
+            db.ref('books').on('value', s => {
+                const list = document.getElementById('adminList'); list.innerHTML = "";
+                for (let id in s.val()) {
+                    list.innerHTML += `<div style="padding:15px; border-bottom:1px solid #ddd; background:#f9f9f9; margin-top:5px; border-radius:8px;">
                     <b>${s.val()[id].name}</b> ($${s.val()[id].price}) 
                     <button onclick="db.ref('books/${id}').remove()" style="float:right; background:red; color:white; border:none; padding:5px 10px; border-radius:5px; cursor:pointer;">DEL</button>
                 </div>`;
-            }
-        });
-        db.ref('wallet').on('value', s => document.getElementById('walVal').innerText = s.val() || 0);
-    }
+                }
+            });
+            db.ref('wallet').on('value', s => document.getElementById('walVal').innerText = s.val() || 0);
+        }
 
-    let activeId = null, activePrice = 0;
-    function openPay(id, price) {
-        activeId = id; activePrice = price;
-        document.getElementById('pPrice').innerText = price;
-        document.getElementById('payModal').style.display = 'flex';
-    }
+        let activeId = null, activePrice = 0;
+        function openPay(id, price) {
+            activeId = id; activePrice = price;
+            document.getElementById('pPrice').innerText = price;
+            document.getElementById('payModal').style.display = 'flex';
+        }
 
-    async function confirmPay() {
-        db.ref('wallet').transaction(c => (c || 0) + parseInt(activePrice));
-        const s = await db.ref('books/'+activeId).once('value');
-        const b = s.val();
-        const { jsPDF } = window.jspdf;
-        
-        // Portrait A4 PDF
-        const pdf = new jsPDF('p', 'mm', 'a4');
-        const pageWidth = pdf.internal.pageSize.getWidth(); // 210mm
-        const pageHeight = pdf.internal.pageSize.getHeight(); // 297mm
-        
-        b.content.forEach((img, i) => {
-            if(i > 0) pdf.addPage();
-            
-            // Image ko center mein fit karne ke liye logic (No Stretching)
-            // Width fix kar di 190mm (taake margins rahein), height 0 matlab Auto-Calculate
-            pdf.addImage(img, 'JPEG', 10, 10, pageWidth - 20, 0, undefined, 'FAST');
-        });
-        
-        pdf.save(b.name + ".pdf");
-        document.getElementById('payModal').style.display = 'none';
-        alert("PDF Downloaded Successfully!");
-    }
-</script>
+        async function confirmPay() {
+            db.ref('wallet').transaction(c => (c || 0) + parseInt(activePrice));
+            const s = await db.ref('books/' + activeId).once('value');
+            const b = s.val();
+            const { jsPDF } = window.jspdf;
+
+            // Portrait A4 PDF
+            const pdf = new jsPDF('p', 'mm', 'a4');
+            const pageWidth = pdf.internal.pageSize.getWidth(); // 210mm
+            const pageHeight = pdf.internal.pageSize.getHeight(); // 297mm
+
+            b.content.forEach((img, i) => {
+                if (i > 0) pdf.addPage();
+
+                // Image ko center mein fit karne ke liye logic (No Stretching)
+                // Width fix kar di 190mm (taake margins rahein), height 0 matlab Auto-Calculate
+                pdf.addImage(img, 'JPEG', 10, 10, pageWidth - 20, 0, undefined, 'FAST');
+            });
+
+            pdf.save(b.name + ".pdf");
+            document.getElementById('payModal').style.display = 'none';
+            alert("PDF Downloaded Successfully!");
+        }
+    </script>
 </body>
+
 </html>
